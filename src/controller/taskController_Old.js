@@ -1,7 +1,7 @@
 import fs from "fs";
-import Task from "../classes/task.mjs";
+import Task from "../classes/task.js";
 
-let tasks = JSON.parse(fs.readFileSync("./tasks.json"));
+let tasks = JSON.parse(fs.readFileSync("./tasks.json")); //!! PROBABLY CLASSES/TASK.JS, TASKCONTROLLER_OLD, TASKS.JSON CAN BE DELETED.
 
 const save = () => {
   fs.writeFile("./tasks.json", JSON.stringify(tasks, null, 2), (error) => {
@@ -25,7 +25,7 @@ export const getTask = (req, res) => {
 };
 
 export const createTask = (req, res) => {
-  const task = new Task(req.body.name, req.body.status);
+  const task = new Task(req.body.title, req.body.status);
   tasks.push(task);
   save();
   res.json({ success: true, data: req.body });

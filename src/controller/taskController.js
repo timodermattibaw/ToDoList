@@ -1,0 +1,62 @@
+import {
+  createTask,
+  removeTask,
+  updateTask,
+  getTasks,
+  getTask,
+} from "../services/task.js";
+
+export const get = async (req, res, next) => {
+  try {
+    const task = await getTask(req.params.id);
+    res.send(task);
+  } catch (err) {
+    res.send(err);
+    console.error(err);
+    next();
+  }
+};
+
+export const list = async (req, res, next) => {
+  try {
+    const tasks = await getTasks();
+    res.send(tasks);
+  } catch (err) {
+    res.send(err);
+    console.error(err);
+    next();
+  }
+};
+
+export const create = async (req, res, next) => {
+  try {
+    const task = await createTask(req.body);
+    res.send(task);
+  } catch (err) {
+    res.send(err);
+    console.error(err);
+    next();
+  }
+};
+
+export const update = async (req, res, next) => {
+  try {
+    const result = await updateTask(req.params.id, req.body);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+    console.error(err);
+    next();
+  }
+};
+
+export const remove = async (req, res, next) => {
+  try {
+    const result = await removeTask(req.params.id);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+    console.error(err);
+    next();
+  }
+};
