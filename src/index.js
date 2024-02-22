@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(cors());
 
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`App listening at http://localhost:${port}`);
 });
 
 app.use("/", taskRoutes);
