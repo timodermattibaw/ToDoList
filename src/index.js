@@ -18,6 +18,6 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-app.use("/task", taskRoutes);
+app.use("/", taskRoutes);
 
 app.use(express.static("public"));

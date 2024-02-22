@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import Task from "../models/task.js";
 
 export async function getTasks() {
-  return taskSchema.find();
+  return Task.find();
 }
 
 export async function getTask(id) {
@@ -20,7 +20,7 @@ export async function createTask(newTask) {
 export async function updateTask(id, updatedTask) {
   try {
     return Task.findOneAndUpdate(
-      { _id: mongoose.Types.ObjectId(id) },
+      { _id: new mongoose.Types.ObjectId(id) },
       updatedTask,
       {
         new: true,
