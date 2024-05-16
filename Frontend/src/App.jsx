@@ -8,10 +8,12 @@ import {
   updateTaskById,
   deleteTaskById,
 } from "./api/task";
+import io from "socket.io-client";
 
 function App() {
   const [tasks, setTasks] = useState([]);
   const [darkTheme, setDarkTheme] = useState(false);
+  const socket = io("http://localhost:1111");
 
   useEffect(() => {
     // Fetch tasks from MongoDB when the component mounts
@@ -19,7 +21,21 @@ function App() {
       .then((response) => response.json())
       .then((data) => setTasks(data))
       .catch((error) => console.error("Error fetching tasks:", error));
-  }, []);
+
+    // Listen for task updates from server
+    socket.on("taskUpdate", () => {
+      // Fetch and update tasks after receiving task update event
+      fetchTasks()
+        .then((response) => response.json())
+        .then((data) => setTasks(data))
+        .catch((error) => console.error("Error fetching tasks:", error));
+    });
+
+    return () => {
+      // Disconnect Socket.IO connection when component unmounts
+      socket.disconnect();
+    };
+  }, [socket]);
 
   const fetchAndUpdateTasks = async () => {
     // Fetch updated tasks from MongoDB and update the UI
