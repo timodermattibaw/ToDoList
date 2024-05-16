@@ -7,7 +7,7 @@ const TaskList = ({ tasks, onEditTask, onDeleteTask, onToggleCompleted }) => {
     <ul className=" ">
       {reversedTasks.map((task) => (
         <Task
-          key={task.id}
+          key={task._id}
           task={task}
           onEditTask={onEditTask}
           onDeleteTask={onDeleteTask}

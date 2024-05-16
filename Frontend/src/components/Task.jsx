@@ -19,18 +19,18 @@ const Task = ({ task, onEditTask, onDeleteTask, onToggleCompleted }) => {
 
   const handleDone = () => {
     if (title.trim()) {
-      onEditTask(task.id, title.trim());
+      onEditTask(task._id, title.trim());
       setEditing(false);
     }
   };
 
   const handleDelete = (e) => {
     e.preventDefault();
-    onDeleteTask(task.id);
+    onDeleteTask(task._id);
   };
 
   const handleToggleCompleted = () => {
-    onToggleCompleted(task.id);
+    onToggleCompleted(task._id);
   };
 
   const handleChange = (e) => {
@@ -54,10 +54,16 @@ const Task = ({ task, onEditTask, onDeleteTask, onToggleCompleted }) => {
           </div>
           <div className=" flex space-x-3">
             <button type="submit">
-              <MdOutlineDone size={20} className=" hover:text-green-400 text-gray-500" />
+              <MdOutlineDone
+                size={20}
+                className=" hover:text-green-400 text-gray-500"
+              />
             </button>
             <button type="button" onClick={handleCancel}>
-              <RxCross2 size={20} className=" text-gray-500 hover:text-orange-400" />
+              <RxCross2
+                size={20}
+                className=" text-gray-500 hover:text-orange-400"
+              />
             </button>
           </div>
         </form>

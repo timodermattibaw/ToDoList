@@ -2,38 +2,80 @@ import React, { useState, useEffect } from "react";
 import AddTaskForm from "./components/AddTaskForm";
 import TaskList from "./components/TaskList";
 import { MdDarkMode, MdSunny } from "react-icons/md";
+import {
+  fetchTasks,
+  createTask,
+  updateTaskById,
+  deleteTaskById,
+} from "./api/task";
 
 function App() {
   const [tasks, setTasks] = useState([]);
   const [darkTheme, setDarkTheme] = useState(false);
 
-  const addTask = (title) => {
-    const newTask = { id: Date.now(), title, completed: false };
-    setTasks([...tasks, newTask]);
+  useEffect(() => {
+    // Fetch tasks from MongoDB when the component mounts
+    fetchTasks()
+      .then((response) => response.json())
+      .then((data) => setTasks(data))
+      .catch((error) => console.error("Error fetching tasks:", error));
+  }, []);
+
+  const fetchAndUpdateTasks = async () => {
+    // Fetch updated tasks from MongoDB and update the UI
+    try {
+      const response = await fetchTasks();
+      const data = await response.json();
+      setTasks(data);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
   };
 
-  const editTask = (id, title) => {
-    setTasks(tasks.map((task) => (task.id === id ? { ...task, title } : task)));
+  const addTask = async (title) => {
+    // Create task in MongoDB
+    const newTask = await createTask({ title, status: "pending" });
+    if (newTask) {
+      await fetchAndUpdateTasks(); // Fetch and update tasks after creating a new task
+    }
   };
 
-  const deleteTask = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id));
+  const editTask = async (id, title) => {
+    // Update task in MongoDB
+    const updatedTask = await updateTaskById(id, { title });
+    if (updatedTask) {
+      await fetchAndUpdateTasks(); // Fetch and update tasks after editing a task
+    }
   };
 
-  const toggleCompleted = (id) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
+  const deleteTask = async (id) => {
+    // Delete task in MongoDB
+    await deleteTaskById(id);
+    await fetchAndUpdateTasks(); // Fetch and update tasks after deleting a task
+  };
+
+  const toggleCompleted = async (id) => {
+    // Toggle task status in MongoDB
+    const taskToUpdate = tasks.find((task) => task._id === id);
+    if (taskToUpdate) {
+      const updatedTask = await updateTaskById(id, {
+        status: taskToUpdate.status === "completed" ? "pending" : "completed",
+      });
+      if (updatedTask) {
+        await fetchAndUpdateTasks(); // Fetch and update tasks after toggling task status
+      }
+    }
+  };
+
+  const clearTasks = async () => {
+    // Clear all tasks in MongoDB
+    await Promise.all(
+      tasks.map(async (task) => {
+        await deleteTaskById(task._id);
+      })
     );
+    await fetchAndUpdateTasks(); // Fetch and update tasks after clearing all tasks
   };
-
-  const clearTasks = () => {
-    setTasks([]);
-  };
-
-  const getCompletedTasks = () => tasks.filter((task) => task.completed);
-  const getRemainingTasks = () => tasks.filter((task) => !task.completed);
 
   const toggleTheme = () => {
     setDarkTheme((prevTheme) => !prevTheme);
@@ -88,7 +130,8 @@ function App() {
             } flex items-center justify-between text-gray-500 border-b`}
           >
             <p className=" text-gray-500 px-2 py-3">
-              {getRemainingTasks().length} tasks left{" "}
+              {tasks.filter((task) => task.status === "pending").length} tasks
+              left{" "}
             </p>
             <button onClick={clearTasks}>Clear all tasks</button>
           </div>
