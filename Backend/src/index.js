@@ -19,6 +19,10 @@ app.use(cors());
 const server = http.createServer(app);
 const io = new Server(server);
 
+export { io };
+
+app.use(taskRoutes);
+
 // Handle Socket.IO connections
 io.on("connection", (socket) => {
   console.log("A user connected");
@@ -38,5 +42,3 @@ io.on("connection", (socket) => {
 server.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
 });
-
-export { io };

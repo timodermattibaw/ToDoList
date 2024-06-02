@@ -43,6 +43,7 @@ html {
   background-size: cover;
 }
 
+/* Adjusted CSS for checkbox */
 .checkbox-wrapper-18 .round {
   position: relative;
 }
@@ -54,7 +55,7 @@ html {
   cursor: pointer;
   height: 22px;
   width: 22px;
-  display: block;
+  display: inline-block; /* Changed from block to inline-block */
 }
 
 .checkbox-wrapper-18 .round label:after {
