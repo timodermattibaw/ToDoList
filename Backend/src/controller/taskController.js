@@ -5,7 +5,7 @@ import {
   getTasks,
   getTask,
 } from "../services/task.js";
-import { io } from "../index.js"; // Import socket.io instance
+import { io } from "../index.js";
 
 export const get = async (req, res, next) => {
   try {

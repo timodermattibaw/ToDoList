@@ -10,10 +10,11 @@ import {
 } from "./api/task";
 import io from "socket.io-client";
 
+const socket = io("http://localhost:1111");
+
 function App() {
   const [tasks, setTasks] = useState([]);
   const [darkTheme, setDarkTheme] = useState(false);
-  const socket = io("http://localhost:1111");
 
   useEffect(() => {
     // Fetch tasks from MongoDB when the component mounts
