@@ -36,7 +36,7 @@ html {
   position: absolute;
   top: 0;
   left: 0;
-  background: linear-gradient(300deg, deepskyblue, darkviolet);
+  background: linear-gradient(300deg, #537895, #09203f);
   background-size: 120% 120%;
   background-repeat: no-repeat;
   object-fit: cover;
