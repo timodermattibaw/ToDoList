@@ -111,7 +111,7 @@ function App() {
         <div className=" w-full flex items-center justify-between">
           <h1 className=" uppercase text-4xl font-bold text-white tracking-widest mb-4 md:text-3xl">
             {/* Task Manager */}
-            My Tasks
+            To Do List
           </h1>
 
           {darkTheme ? (
