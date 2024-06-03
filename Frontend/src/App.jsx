@@ -28,7 +28,7 @@ function App() {
   }, []);
 
   const fetchTasksFromServer = () => {
-    fetchTasks("https://todolistbackend-9aoa.onrender.com/api/tasks")
+    fetchTasks("https://todolistbackend-9aoa.onrender.com/services/task")
       .then((response) => response.json())
       .then((data) => setTasks(data))
       .catch((error) => console.error("Error fetching tasks:", error));
